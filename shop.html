@@ -1,0 +1,995 @@
+<!DOCTYPE html>
+<html lang="vi">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>Tech Shop - Cửa hàng điện tử</title>
+        <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: #f5f5f5;
+            color: #333;
+        }
+        
+        /* Header */
+        header {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 20px 0;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+        
+        .header-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        
+        .logo {
+            font-size: 24px;
+            font-weight: bold;
+        }
+        
+        .nav {
+            display: flex;
+            gap: 30px;
+            align-items: center;
+        }
+        
+        .nav a {
+            color: white;
+            text-decoration: none;
+            transition: opacity 0.3s;
+        }
+        
+        .nav a:hover {
+            opacity: 0.8;
+        }
+        
+        .cart-icon {
+            position: relative;
+            cursor: pointer;
+            font-size: 20px;
+        }
+        
+        .cart-count {
+            position: absolute;
+            top: -8px;
+            right: -8px;
+            background: #ff6b6b;
+            color: white;
+            border-radius: 50%;
+            width: 20px;
+            height: 20px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 12px;
+            font-weight: bold;
+        }
+        
+        .user-section {
+            display: flex;
+            gap: 15px;
+            align-items: center;
+        }
+        
+        .user-badge {
+            background: rgba(255,255,255,0.2);
+            padding: 5px 12px;
+            border-radius: 20px;
+            font-size: 12px;
+        }
+        
+        /* Main Container */
+        .container {
+            max-width: 1200px;
+            margin: 30px auto;
+            padding: 0 20px;
+        }
+        
+        /* Banner */
+        .banner {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 40px;
+            border-radius: 10px;
+            margin-bottom: 40px;
+            text-align: center;
+        }
+        
+        .banner h1 {
+            font-size: 32px;
+            margin-bottom: 10px;
+        }
+        
+        .banner p {
+            font-size: 16px;
+            opacity: 0.9;
+        }
+        
+        /* User Login Section */
+        .user-login {
+            background: white;
+            padding: 30px;
+            border-radius: 10px;
+            margin-bottom: 30px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+        
+        .user-login h3 {
+            margin-bottom: 20px;
+            color: #667eea;
+        }
+        
+        .login-buttons {
+            display: flex;
+            gap: 15px;
+            flex-wrap: wrap;
+        }
+        
+        .btn {
+            padding: 12px 24px;
+            border: none;
+            border-radius: 6px;
+            cursor: pointer;
+            font-weight: 600;
+            transition: all 0.3s;
+        }
+        
+        .btn-primary {
+            background: #667eea;
+            color: white;
+        }
+        
+        .btn-primary:hover {
+            background: #5568d3;
+            transform: translateY(-2px);
+        }
+        
+        .btn-secondary {
+            background: #48dbfb;
+            color: white;
+        }
+        
+        .btn-secondary:hover {
+            background: #30b0d5;
+            transform: translateY(-2px);
+        }
+        
+        .btn-success {
+            background: #1dd1a1;
+            color: white;
+        }
+        
+        .btn-success:hover {
+            background: #10ac84;
+            transform: translateY(-2px);
+        }
+        
+        .btn-danger {
+            background: #ff6348;
+            color: white;
+        }
+        
+        .btn-danger:hover {
+            background: #ee5a3f;
+            transform: translateY(-2px);
+        }
+        
+        /* Products Section */
+        .products-section h2 {
+            margin-bottom: 30px;
+            font-size: 24px;
+            color: #333;
+        }
+        
+        /* Search & Filter */
+        .search-filter {
+            background: white;
+            padding: 20px;
+            border-radius: 10px;
+            margin-bottom: 30px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+        
+        .search-filter h3 {
+            margin-bottom: 15px;
+            color: #333;
+        }
+        
+        .search-bar {
+            display: flex;
+            gap: 10px;
+            margin-bottom: 15px;
+        }
+        
+        .search-bar input {
+            flex: 1;
+            padding: 10px 15px;
+            border: 1px solid #ddd;
+            border-radius: 6px;
+            font-size: 14px;
+        }
+        
+        .search-bar button {
+            padding: 10px 20px;
+            background: #667eea;
+            color: white;
+            border: none;
+            border-radius: 6px;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+        
+        .search-bar button:hover {
+            background: #5568d3;
+        }
+        
+        .filter-buttons {
+            display: flex;
+            gap: 10px;
+            flex-wrap: wrap;
+        }
+        
+        .filter-btn {
+            padding: 8px 16px;
+            border: 2px solid #ddd;
+            background: white;
+            border-radius: 20px;
+            cursor: pointer;
+            transition: all 0.3s;
+            font-size: 14px;
+        }
+        
+        .filter-btn:hover {
+            border-color: #667eea;
+            color: #667eea;
+        }
+        
+        .filter-btn.active {
+            background: #667eea;
+            color: white;
+            border-color: #667eea;
+        }
+        
+        .products-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+            gap: 25px;
+            margin-bottom: 40px;
+        }
+        
+        .product-card {
+            background: white;
+            border-radius: 10px;
+            overflow: hidden;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+            transition: all 0.3s;
+        }
+        
+        .product-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 5px 20px rgba(0,0,0,0.15);
+        }
+        
+        .product-image {
+            width: 100%;
+            height: 200px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 60px;
+        }
+        
+        .product-info {
+            padding: 20px;
+        }
+        
+        .product-name {
+            font-size: 18px;
+            font-weight: 600;
+            margin-bottom: 8px;
+            color: #333;
+        }
+        
+        .product-category {
+            color: #999;
+            font-size: 12px;
+            margin-bottom: 12px;
+        }
+        
+        .product-description {
+            color: #666;
+            font-size: 14px;
+            margin-bottom: 15px;
+            line-height: 1.5;
+        }
+        
+        .product-footer {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        
+        .product-price {
+            font-size: 20px;
+            font-weight: bold;
+            color: #667eea;
+        }
+        
+        .product-actions {
+            display: flex;
+            gap: 8px;
+        }
+        
+        .btn-small {
+            padding: 8px 16px;
+            font-size: 12px;
+        }
+        
+        .btn-view {
+            background: #667eea;
+            color: white;
+            border: none;
+            padding: 8px 16px;
+            border-radius: 4px;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+        
+        .btn-view:hover {
+            background: #5568d3;
+        }
+        
+        .btn-add-cart {
+            background: #1dd1a1;
+            color: white;
+            border: none;
+            padding: 8px 16px;
+            border-radius: 4px;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+        
+        .btn-add-cart:hover {
+            background: #10ac84;
+        }
+        
+        /* Reviews */
+        .reviews-section {
+            margin-top: 30px;
+            background: #f9f9f9;
+            padding: 20px;
+            border-radius: 8px;
+            border-top: 3px solid #667eea;
+        }
+        
+        .reviews-section h4 {
+            margin-bottom: 15px;
+            color: #333;
+        }
+        
+        .review-item {
+            background: white;
+            padding: 15px;
+            border-radius: 6px;
+            margin-bottom: 10px;
+            border-left: 4px solid #667eea;
+        }
+        
+        .review-header {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 8px;
+        }
+        
+        .review-author {
+            font-weight: 600;
+            color: #333;
+        }
+        
+        .review-rating {
+            color: #ffc107;
+        }
+        
+        .review-text {
+            color: #666;
+            line-height: 1.5;
+        }
+        
+        .review-date {
+            font-size: 12px;
+            color: #999;
+            margin-top: 8px;
+        }
+        .cart-section {
+            background: white;
+            padding: 30px;
+            border-radius: 10px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+            margin-bottom: 40px;
+        }
+        
+        .cart-section h2 {
+            margin-bottom: 20px;
+            color: #333;
+        }
+        
+        .cart-empty {
+            text-align: center;
+            padding: 40px;
+            color: #999;
+        }
+        
+        .cart-items {
+            display: none;
+        }
+        
+        .cart-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 15px 0;
+            border-bottom: 1px solid #eee;
+        }
+        
+        .cart-item-info {
+            flex: 1;
+        }
+        
+        .cart-item-name {
+            font-weight: 600;
+            margin-bottom: 5px;
+        }
+        
+        .cart-item-price {
+            color: #667eea;
+            font-weight: bold;
+        }
+        
+        .cart-summary {
+            margin-top: 20px;
+            padding-top: 20px;
+            border-top: 2px solid #eee;
+            display: flex;
+            justify-content: space-between;
+            font-size: 18px;
+            font-weight: bold;
+        }
+        
+        .checkout-btn {
+            width: 100%;
+            padding: 15px;
+            background: #667eea;
+            color: white;
+            border: none;
+            border-radius: 6px;
+            font-size: 16px;
+            font-weight: 600;
+            cursor: pointer;
+            margin-top: 20px;
+            transition: all 0.3s;
+        }
+        
+        .checkout-btn:hover {
+            background: #5568d3;
+            transform: translateY(-2px);
+        }
+        
+        /* Footer */
+        footer {
+            background: #333;
+            color: white;
+            text-align: center;
+            padding: 20px;
+            margin-top: 40px;
+        }
+    </style>
+    </head>
+    <body>
+        <!-- Google Analytics 4 -->
+        <script async
+            src="https://www.googletagmanager.com/gtag/js?id=G-5T3BKBHZCZ"></script>
+        <script>
+        window.dataLayer = window.dataLayer || [];
+        function gtag(){dataLayer.push(arguments);}
+        gtag('js', new Date());
+        gtag('config', 'G-5T3BKBHZCZ', {
+            'allow_google_signals': true,
+            'allow_ad_personalization_signals': true
+        });
+        
+        // Helper để gửi event async
+        function sendEvent(eventName, params) {
+            setTimeout(() => gtag('event', eventName, params), 0);
+        }
+        
+        function setProps(props) {
+            setTimeout(() => gtag('set', 'user_properties', props), 0);
+        }
+    </script>
+
+        <!-- Header -->
+        <header>
+            <div class="header-container">
+                <div class="logo">💻 Tech Shop</div>
+                <nav class="nav">
+                    <a href="#products">Sản phẩm</a>
+                    <a href="#cart">Giỏ hàng</a>
+                    <a href="#about">Về chúng tôi</a>
+                    <div class="cart-icon" onclick="scrollToCart()">
+                        🛒
+                        <span class="cart-count" id="cart-count">0</span>
+                    </div>
+                </nav>
+                <div class="user-section">
+                    <span class="user-badge" id="user-badge">Khách</span>
+                </div>
+            </div>
+        </header>
+
+        <!-- Main Content -->
+        <div class="container">
+            <!-- Banner -->
+            <div class="banner">
+                <h1>🎉 Chào mừng đến Tech Shop</h1>
+                <p>Cửa hàng điện tử trực tuyến uy tín - Chất lượng tốt, giá cả
+                    hợp lý</p>
+            </div>
+
+            <!-- User Login Section -->
+            <div class="user-login">
+                <h3>👤 Đăng nhập với vai trò:</h3>
+                <div class="login-buttons">
+                    <button class="btn btn-primary" onclick="loginVIP()">👑 Đăng
+                        nhập VIP</button>
+                    <button class="btn btn-secondary"
+                        onclick="loginPremium()">💎 Đăng nhập Premium</button>
+                    <button class="btn btn-success" onclick="loginRegular()">⭐
+                        Đăng nhập Regular</button>
+                    <button class="btn btn-danger" onclick="loginGuest()">👤
+                        Khách (Không đăng nhập)</button>
+                </div>
+            </div>
+
+            <!-- Products Section -->
+            <section class="products-section" id="products">
+                <h2>📱 Sản phẩm nổi bật</h2>
+
+                <!-- Search & Filter -->
+                <div class="search-filter">
+                    <h3>🔍 Tìm kiếm & Lọc</h3>
+                    <div class="search-bar">
+                        <input type="text" id="search-input"
+                            placeholder="Tìm kiếm sản phẩm...">
+                        <button onclick="searchProducts()">Tìm kiếm</button>
+                    </div>
+                    <div class="filter-buttons">
+                        <button class="filter-btn active"
+                            onclick="filterByCategory('all')">Tất cả</button>
+                        <button class="filter-btn"
+                            onclick="filterByCategory('Điện thoại')">📱 Điện
+                            thoại</button>
+                        <button class="filter-btn"
+                            onclick="filterByCategory('Laptop')">💻
+                            Laptop</button>
+                        <button class="filter-btn"
+                            onclick="filterByCategory('Audio')">🎧
+                            Audio</button>
+                        <button class="filter-btn"
+                            onclick="filterByCategory('Tablet')">📲
+                            Tablet</button>
+                        <button class="filter-btn"
+                            onclick="filterByCategory('Smartwatch')">⌚
+                            Smartwatch</button>
+                    </div>
+                </div>
+
+                <div class="products-grid" id="products-grid">
+                    <!-- Products will be loaded here -->
+                </div>
+            </section> <!-- Cart Section -->
+            <section class="cart-section" id="cart">
+                <h2>🛒 Giỏ hàng của bạn</h2>
+                <div class="cart-empty" id="cart-empty">
+                    <p>Giỏ hàng của bạn hiện đang trống</p>
+                </div>
+                <div class="cart-items" id="cart-items">
+                    <!-- Cart items will be loaded here -->
+                </div>
+            </section>
+        </div>
+
+        <!-- Footer -->
+        <footer>
+            <p>&copy; 2025 Tech Shop. Tất cả quyền được bảo lưu. | GA4 Deep
+                Analysis Demo</p>
+        </footer>
+
+        <script>
+        // Products data
+        const products = [
+            {
+                id: 'IP15PRO',
+                name: 'iPhone 15 Pro',
+                category: 'Điện thoại',
+                price: 15000000,
+                icon: '📱',
+                description: 'Điện thoại cao cấp với camera 48MP, chip A17 Pro',
+                rating: 4.8,
+                reviews: [
+                    {author: 'Nguyễn A', rating: 5, text: 'Sản phẩm rất tốt, giao hàng nhanh chóng'},
+                    {author: 'Trần B', rating: 4, text: 'Chất lượng tốt, giá hợp lý'}
+                ]
+            },
+            {
+                id: 'DELL_XPS',
+                name: 'Laptop Dell XPS 15',
+                category: 'Laptop',
+                price: 25000000,
+                icon: '💻',
+                description: 'Laptop chuyên nghiệp với màn hình 4K, hiệu năng mạnh',
+                rating: 4.7,
+                reviews: [
+                    {author: 'Lê C', rating: 5, text: 'Máy rất mạnh, cực kỳ hài lòng'},
+                    {author: 'Phạm D', rating: 4, text: 'Giá cao nhưng chất lượng xứng đáng'}
+                ]
+            },
+            {
+                id: 'AIRPODS_MAX',
+                name: 'Apple AirPods Max',
+                category: 'Audio',
+                price: 8000000,
+                icon: '🎧',
+                description: 'Tai nghe over-ear cao cấp với âm thanh tuyệt vời',
+                rating: 4.9,
+                reviews: [
+                    {author: 'Hoàng E', rating: 5, text: 'Âm thanh tuyệt vời, rất thoải mái khi đeo'},
+                    {author: 'Vũ F', rating: 5, text: 'Tốt nhất mà tôi từng dùng'}
+                ]
+            },
+            {
+                id: 'IPAD_PRO',
+                name: 'iPad Pro 12.9"',
+                category: 'Tablet',
+                price: 18000000,
+                icon: '📲',
+                description: 'Máy tính bảng mạnh mẽ cho sáng tạo và năng suất',
+                rating: 4.6,
+                reviews: [
+                    {author: 'Bùi G', rating: 5, text: 'Hoàn hảo cho công việc thiết kế'},
+                    {author: 'Đặng H', rating: 4, text: 'Hơi đắt nhưng đáng tiền'}
+                ]
+            },
+            {
+                id: 'WATCH_ULTRA',
+                name: 'Apple Watch Ultra',
+                category: 'Smartwatch',
+                price: 9000000,
+                icon: '⌚',
+                description: 'Đồng hồ thông minh bền bỉ cho vận động viên',
+                rating: 4.7,
+                reviews: [
+                    {author: 'Tô I', rating: 5, text: 'Pin khỏe, tính năng đủ đầy'},
+                    {author: 'Tạ J', rating: 4, text: 'Rất bền và đẹp'}
+                ]
+            },
+            {
+                id: 'MACBOOK_M3',
+                name: 'MacBook Pro M3',
+                category: 'Laptop',
+                price: 30000000,
+                icon: '🍎',
+                description: 'Laptop siêu mạnh cho các chuyên gia',
+                rating: 4.9,
+                reviews: [
+                    {author: 'Võ K', rating: 5, text: 'Hiệu năng siêu mạnh, chạy mượt mà'},
+                    {author: 'Nước L', rating: 5, text: 'Tuyệt vời cho lập trình viên'}
+                ]
+            }
+        ];
+
+        let cart = [];
+        let currentUser = null;
+        let currentFilter = 'all';
+        let currentSearch = '';
+
+        // Initialize products
+        function initProducts() {
+            renderProducts();
+        }
+        
+        // Render products based on filter and search
+        function renderProducts() {
+            let filtered = products.filter(p => {
+                const matchCategory = currentFilter === 'all' || p.category === currentFilter;
+                const matchSearch = p.name.toLowerCase().includes(currentSearch.toLowerCase()) || 
+                                   p.category.toLowerCase().includes(currentSearch.toLowerCase());
+                return matchCategory && matchSearch;
+            });
+            
+            const grid = document.getElementById('products-grid');
+            grid.innerHTML = filtered.map(product => `
+                <div class="product-card">
+                    <div class="product-image">${product.icon}</div>
+                    <div class="product-info">
+                        <div class="product-name">${product.name}</div>
+                        <div class="product-category">${product.category} ⭐ ${product.rating}</div>
+                        <div class="product-description">${product.description}</div>
+                        
+                        <div class="reviews-section">
+                            <h4>💬 Đánh giá (${product.reviews.length})</h4>
+                            ${product.reviews.slice(0, 2).map(review => `
+                                <div class="review-item">
+                                    <div class="review-header">
+                                        <span class="review-author">${review.author}</span>
+                                        <span class="review-rating">${'⭐'.repeat(review.rating)}</span>
+                                    </div>
+                                    <div class="review-text">"${review.text}"</div>
+                                </div>
+                            `).join('')}
+                        </div>
+                        
+                        <div class="product-footer">
+                            <div class="product-price">${(product.price / 1000000).toFixed(1)}M</div>
+                            <div class="product-actions">
+                                <button class="btn-view" onclick="viewProduct('${product.id}')">Xem</button>
+                                <button class="btn-add-cart" onclick="addToCart('${product.id}')">Thêm</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            `).join('');
+        }
+        
+        // Filter by category
+        function filterByCategory(category) {
+            currentFilter = category;
+            // Update button styles
+            document.querySelectorAll('.filter-btn').forEach(btn => {
+                btn.classList.remove('active');
+            });
+            event.target.classList.add('active');
+            renderProducts();
+        }
+        
+        // Search products
+        function searchProducts() {
+            const input = document.getElementById('search-input');
+            currentSearch = input.value;
+            renderProducts();
+        }
+
+        // View product
+        function viewProduct(productId) {
+            const product = products.find(p => p.id === productId);
+            if (!product) return;
+
+            sendEvent('view_item', {
+                'currency': 'VND',
+                'value': product.price,
+                'items': [{
+                    'item_id': product.id,
+                    'item_name': product.name,
+                    'item_category': product.category,
+                    'price': product.price,
+                    'quantity': 1
+                }]
+            });
+
+            alert(`✓ Đã xem: ${product.name}\n💰 Giá: ${(product.price / 1000000).toFixed(1)}M VND`);
+        }
+
+        // Add to cart
+        function addToCart(productId) {
+            const product = products.find(p => p.id === productId);
+            if (!product) return;
+
+            // Add to local cart
+            const existingItem = cart.find(item => item.id === productId);
+            if (existingItem) {
+                existingItem.quantity++;
+            } else {
+                cart.push({...product, quantity: 1});
+            }
+
+            // Send GA4 event
+            sendEvent('add_to_cart', {
+                'currency': 'VND',
+                'value': product.price,
+                'items': [{
+                    'item_id': product.id,
+                    'item_name': product.name,
+                    'item_category': product.category,
+                    'price': product.price,
+                    'quantity': 1
+                }]
+            });
+
+            updateCart();
+            alert(`✓ Đã thêm ${product.name} vào giỏ`);
+        }
+
+        // Update cart display
+        function updateCart() {
+            const cartCount = cart.reduce((sum, item) => sum + item.quantity, 0);
+            document.getElementById('cart-count').textContent = cartCount;
+
+            const cartEmpty = document.getElementById('cart-empty');
+            const cartItems = document.getElementById('cart-items');
+
+            if (cart.length === 0) {
+                cartEmpty.style.display = 'block';
+                cartItems.style.display = 'none';
+            } else {
+                cartEmpty.style.display = 'none';
+                cartItems.style.display = 'block';
+
+                const total = cart.reduce((sum, item) => sum + item.price * item.quantity, 0);
+                cartItems.innerHTML = `
+                    ${cart.map(item => `
+                        <div class="cart-item">
+                            <div class="cart-item-info">
+                                <div class="cart-item-name">${item.name}</div>
+                                <div class="cart-item-price">Giá: ${(item.price / 1000000).toFixed(1)}M × ${item.quantity}</div>
+                            </div>
+                            <div>
+                                <button class="btn-view" onclick="removeFromCart('${item.id}')">Xóa</button>
+                            </div>
+                        </div>
+                    `).join('')}
+                    <div class="cart-summary">
+                        <span>Tổng cộng:</span>
+                        <span>${(total / 1000000).toFixed(1)}M VND</span>
+                    </div>
+                    <button class="checkout-btn" onclick="checkout()">💳 Thanh toán</button>
+                `;
+            }
+        }
+
+        // Remove from cart
+        function removeFromCart(productId) {
+            cart = cart.filter(item => item.id !== productId);
+            updateCart();
+        }
+
+        // Checkout
+        function checkout() {
+            if (cart.length === 0) {
+                alert('Giỏ hàng trống!');
+                return;
+            }
+
+            const total = cart.reduce((sum, item) => sum + item.price * item.quantity, 0);
+            const transactionId = 'TXN_' + Math.floor(Math.random() * 1000000);
+
+            sendEvent('purchase', {
+                'transaction_id': transactionId,
+                'affiliation': 'Tech Shop',
+                'value': total,
+                'currency': 'VND',
+                'tax': total * 0.1,
+                'shipping': 500000,
+                'items': cart.map(item => ({
+                    'item_id': item.id,
+                    'item_name': item.name,
+                    'item_category': item.category,
+                    'price': item.price,
+                    'quantity': item.quantity
+                }))
+            });
+
+            alert(`✅ Thanh toán thành công!\n\n📋 Mã đơn: ${transactionId}\n💰 Tổng tiền: ${(total / 1000000).toFixed(1)}M VND\n\nCảm ơn bạn đã mua sắm!`);
+
+            // Clear cart
+            cart = [];
+            updateCart();
+        }
+
+        // Login functions
+        function loginVIP() {
+            currentUser = 'VIP_Member';
+            setProps({
+                'user_type': 'VIP_Member',
+                'customer_level': 'Gold',
+                'membership_status': 'Active',
+                'lifetime_value_tier': 'High'
+            });
+            sendEvent('login', {
+                'method': 'Email',
+                'user_type': 'VIP'
+            });
+            updateUserBadge();
+            alert('✅ Đã đăng nhập VIP!\n🎁 Bạn được hưởng ưu đãi đặc biệt');
+        }
+
+        function loginPremium() {
+            currentUser = 'Premium_Member';
+            setProps({
+                'user_type': 'Premium_Member',
+                'customer_level': 'Silver',
+                'membership_status': 'Active',
+                'lifetime_value_tier': 'Medium'
+            });
+            sendEvent('login', {
+                'method': 'Email',
+                'user_type': 'Premium'
+            });
+            updateUserBadge();
+            alert('✅ Đã đăng nhập Premium!\n🎉 Bạn được hưởng ưu đãi thêm');
+        }
+
+        function loginRegular() {
+            currentUser = 'Regular_Member';
+            setProps({
+                'user_type': 'Regular_Member',
+                'customer_level': 'Bronze',
+                'membership_status': 'Active',
+                'lifetime_value_tier': 'Low'
+            });
+            sendEvent('login', {
+                'method': 'Email',
+                'user_type': 'Regular'
+            });
+            updateUserBadge();
+            alert('✅ Đã đăng nhập Regular!');
+        }
+
+        function loginGuest() {
+            currentUser = null;
+            setProps({
+                'user_type': 'Guest',
+                'customer_level': 'None',
+                'membership_status': 'Inactive',
+                'lifetime_value_tier': 'None'
+            });
+            updateUserBadge();
+            alert('✓ Bạn đang duyệt web dưới tư cách khách');
+        }
+
+        // Update user badge
+        function updateUserBadge() {
+            const badge = document.getElementById('user-badge');
+            if (currentUser) {
+                badge.textContent = currentUser.replace('_', ' ');
+                badge.style.background = 'rgba(255, 200, 0, 0.3)';
+            } else {
+                badge.textContent = 'Khách';
+                badge.style.background = 'rgba(255,255,255,0.2)';
+            }
+        }
+
+        // Scroll to cart
+        function scrollToCart() {
+            document.getElementById('cart').scrollIntoView({behavior: 'smooth'});
+        }
+
+        // Initialize on load
+        window.addEventListener('load', () => {
+            initProducts();
+            updateCart();
+            
+            // Search on Enter key
+            document.getElementById('search-input').addEventListener('keypress', (e) => {
+                if (e.key === 'Enter') {
+                    searchProducts();
+                }
+            });
+        });
+    </script>
+    </body>
+</html>
