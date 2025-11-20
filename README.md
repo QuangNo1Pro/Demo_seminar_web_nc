@@ -27,23 +27,20 @@ Hướng dẫn chi tiết về **Phân tích chuyên sâu hành vi người dùn
 
 ---
 
-# 🛍️ CHẠY WEB SHOP (shop.html)
+# 🛍️ CHẠY WEB SHOP
 
-## ⚡ Cách nhanh nhất: Deploy lên Vercel
+## ⚡ Cách 1: Deploy lên Vercel (Khuyên dùng)
 
-Bạn đã deploy lên Vercel? Tuyệt! Giờ chỉ cần mở URL Vercel và thêm `/shop.html`:
+1. Deploy project này lên Vercel.
+2. Mở URL Vercel của bạn. Bạn sẽ thấy trang chủ.
+3. Click vào link "Go to Shop Demo" để mở trang shop.
 
-```
-https://your-project-name.vercel.app/shop.html
-```
+## 💻 Cách 2: Chạy local
 
-## 💻 Hoặc chạy local:
-
-```bash
-cd C:\HCMUS\Nam4\Web_nang_cao\Demo-seminar
-python -m http.server 8000
-# Mở browser: http://localhost:8000/shop.html
-```
+1. Mở terminal trong thư mục project.
+2. Chạy lệnh: `python -m http.server 8000`
+3. Mở trình duyệt và truy cập: `http://localhost:8000`
+4. Click vào link "Go to Shop Demo" để mở trang shop.
 
 ---
 
@@ -180,9 +177,9 @@ Bạn sẽ thấy:
 # 🎬 Tổng quan quy trình
 
 ```
-1️⃣ Thay Measurement ID (GA4)
+1️⃣ Thay Measurement ID (GA4) trong `shop.html`
         ↓
-2️⃣ Mở file HTML trong trình duyệt
+2️⃣ Chạy Web Shop (local hoặc Vercel)
         ↓
 3️⃣ Bấm nút để tạo dữ liệu test
         ↓
@@ -212,7 +209,7 @@ Bạn sẽ thấy:
 ## 1.2 Thay Measurement ID trong file HTML
 
 **Cách làm:**
-1. Mở file `index.html` trong VS Code
+1. Mở file `shop.html` trong VS Code
 2. **Ctrl + H** để mở Find and Replace
 3. Tìm: `G-XXXXXXX`
 4. Thay bằng: Measurement ID của bạn (ví dụ: `G-A1B2C3D4E5`)
@@ -230,36 +227,6 @@ Bạn sẽ thấy:
 <script>
     gtag('config', 'G-A1B2C3D4E5', {
 ```
-
----
-
-# 🌐 BƯỚC 2: Mở file HTML trong trình duyệt
-
-## 2.1 Cách mở file
-
-**3 cách:**
-
-### 🔹 Cách 1: Drag-drop
-- Mở File Explorer
-- Kéo file `index.html` vào trình duyệt (Chrome, Edge, Firefox, Safari)
-
-### 🔹 Cách 2: Right-click
-- Right-click file `index.html`
-- Chọn **Open with** → chọn trình duyệt
-
-### 🔹 Cách 3: Đường dẫn trực tiếp
-- Ctrl + L trong trình duyệt
-- Dán: `file:///C:/HCMUS/Nam4/Web_nang_cao/Demo-seminar/index.html`
-- Enter
-
-## 2.2 Kiểm tra file đã load thành công
-
-✅ Bạn sẽ thấy:
-- **Tiêu đề:** "GA4 Deep Analysis - User Properties & Ecommerce Funnel"
-- **Màu tím gradient** ở header
-- **6 phần** với các nút bấm màu sắc khác nhau
-
-❌ Nếu thấy mã HTML thô → file chưa load đúng, kiểm tra lại đường dẫn
 
 ---
 
@@ -428,13 +395,13 @@ gtag('get', 'client_id', (cid) => console.log('Client ID:', cid));
 
 | Tab 1 | Tab 2 |
 |-------|-------|
-| File HTML (`index.html`) | Google Analytics DebugView |
+| Web Shop (`shop.html`) | Google Analytics DebugView |
 
 ## 6.2 Kịch bản quay video (2-3 phút)
 
 ```
 0:00-0:10   "Xin chào thầy/cô. Hôm nay em xin trình bày GA4 Deep Analysis"
-           (Show file HTML)
+           (Show Web Shop)
 
 0:10-0:40   "Đầu tiên, em set user_type thành VIP Member"
            (Bấm nút 👑 Đăng nhập VIP)
@@ -749,47 +716,16 @@ Drop-off rate: 40% at cart step
 # 📁 Cấu trúc File
 
 ```
-Demo_seminar_web_nc/
-├── shop.html          ⭐ WEB SHOP HOÀN CHỈNH (Dùng cái này!)
-│   ├── Search & Filter
-│   ├── 6 sản phẩm + Reviews
-│   ├── Giỏ hàng
-│   └── GA4 Tracking async
-│
-├── index.html         (Demo cũ - Button test)
-│
+Demo-seminar/
+├── index.html         (Landing page)
+├── shop.html          (⭐ Web Shop Demo)
 ├── README.md          (File hướng dẫn này)
-│
-└── .git/             (Git repository)
+└── .git/
 ```
 
 ---
 
-# ✅ Tóm tắt So sánh
-
-| Tính năng | shop.html | index.html |
-|-----------|-----------|-----------|
-| **Giao diện** | Thực tế (Shop đầy đủ) | Demo (Chỉ button) |
-| **Search** | ✅ Có | ❌ Không |
-| **Filter** | ✅ Có (6 category) | ❌ Không |
-| **Reviews** | ✅ Có (2 review/sản phẩm) | ❌ Không |
-| **Giỏ hàng** | ✅ Hoạt động thực | ❌ Giả lập |
-| **Đăng nhập** | ✅ VIP/Premium/Regular/Guest | ✅ Như nhau |
-| **GA4 Events** | ✅ Tất cả tích hợp | ✅ Tất cả tích hợp |
-| **Performance** | ✅ Async (không lag) | ⚠️ Có lag trước |
-
----
-
-# 🎓 Khi trình bày thầy/cô
-
-**Khuyên:** Dùng `shop.html` thay vì `index.html`
-
-### Vì sao?
-
-1. **Thực tế hơn**: Không phải chỉ button test, mà là web shop thực sự
-2. **Chuyên nghiệp**: Giao diện đẹp, có search/filter/reviews như app thật
-3. **Dễ hiểu**: Người khác dễ hình dung GA4 dùng để track gì
-4. **Ấn tượng**: "Em xây dựng luôn web shop, không chỉ demo" → Điểm cộng!
+# 🎓 Khi trình bày
 
 ### Kịch bản trình bày
 
