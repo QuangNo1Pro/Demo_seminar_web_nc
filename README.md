@@ -9,6 +9,12 @@ Hướng dẫn chi tiết về **Phân tích chuyên sâu hành vi người dùn
 
 ## 📋 Mục lục
 
+### **Phần I: Web Shop Hoàn chỉnh (Recommended)**
+- [🛍️ Chạy Web Shop](#-chạy-web-shop-shophtml)
+- [✨ Tính năng Shop](#-tính-năng-web-shop)
+- [🎬 Kịch bản Demo](#-kịch-bản-demo-shophtml)
+
+### **Phần II: Setup & Testing**
 1. [🎬 Tổng quan quy trình](#-tổng-quan-quy-trình)
 2. [📝 Bước 1: Thay Measurement ID](#-bước-1-thay-measurement-id)
 3. [🌐 Bước 2: Mở file HTML](#-bước-2-mở-file-html-trong-trình-duyệt)
@@ -18,6 +24,156 @@ Hướng dẫn chi tiết về **Phân tích chuyên sâu hành vi người dùn
 7. [📹 Bước 6: Quay video](#-bước-6-quay-video-chứng-minh)
 8. [📊 Xem thống kê Data](#-phần-ii-xem-thống-kê-data-trên-ga4)
 9. [🆘 Xử lý lỗi](#-xử-lý-lỗi)
+
+---
+
+# 🛍️ CHẠY WEB SHOP (shop.html)
+
+## ⚡ Cách nhanh nhất: Deploy lên Vercel
+
+Bạn đã deploy lên Vercel? Tuyệt! Giờ chỉ cần mở URL Vercel và thêm `/shop.html`:
+
+```
+https://your-project-name.vercel.app/shop.html
+```
+
+## 💻 Hoặc chạy local:
+
+```bash
+cd C:\HCMUS\Nam4\Web_nang_cao\Demo-seminar
+python -m http.server 8000
+# Mở browser: http://localhost:8000/shop.html
+```
+
+---
+
+## ✨ Tính năng Web Shop
+
+### **1️⃣ Đăng nhập & User Properties**
+- 4 nút đăng nhập: VIP, Premium, Regular, Guest
+- GA4 sẽ ghi nhận loại user và áp dụng cho toàn bộ hành động
+- Header hiển thị user badge (VIP 👑, Premium 💎, Regular ⭐, Guest 👤)
+
+### **2️⃣ Tìm kiếm (Search)**
+- Ô tìm kiếm sản phẩm
+- Hỗ trợ tìm kiếm theo tên hoặc category
+- Nhấn Enter hoặc click "Tìm kiếm"
+
+### **3️⃣ Lọc (Filter)**
+- 6 nút lọc: Tất cả, Điện thoại, Laptop, Audio, Tablet, Smartwatch
+- Lọc real-time, có highlight nút đang chọn
+- Kết hợp được với search
+
+### **4️⃣ Đánh giá (Reviews)**
+- Mỗi sản phẩm có rating (⭐ 4.6-4.9)
+- Hiển thị 2 đánh giá top từ khách hàng
+- Tên người review, số sao, nội dung
+
+### **5️⃣ Giỏ hàng & Checkout**
+- Thêm/xóa sản phẩm
+- Hiển thị tổng tiền
+- Nút thanh toán gửi GA4 purchase event
+
+### **6️⃣ GA4 Tracking tích hợp**
+- ✅ **login**: Khi bấm nút đăng nhập
+- ✅ **view_item**: Khi bấm "Xem" sản phẩm
+- ✅ **add_to_cart**: Khi bấm "Thêm" vào giỏ
+- ✅ **purchase**: Khi bấm "Thanh toán"
+- ✅ Tất cả events được gửi **async** (không block UI)
+
+---
+
+## 🎬 Kịch bản Demo (shop.html)
+
+### **Scenario 1: Khách VIP mua 1 sản phẩm**
+
+```
+1. Mở shop.html
+2. Bấm 👑 "Đăng nhập VIP"
+   → Header hiển thị "VIP_Member"
+   → GA4 ghi nhận event login + user_properties
+
+3. Bấm "Xem" sản phẩm iPhone 15 Pro
+   → GA4 ghi nhận view_item (value: 15M)
+
+4. Bấm "Thêm" vào giỏ
+   → Giỏ hàng update (số lượng +1)
+   → GA4 ghi nhận add_to_cart
+
+5. Bấm "Thanh toán"
+   → Alert hiển thị mã đơn hàng
+   → GA4 ghi nhận purchase (value: 15M, transaction_id: TXN_xxxxx)
+   → Giỏ hàng reset
+```
+
+### **Scenario 2: Khách Regular tìm kiếm Laptop**
+
+```
+1. Bấm ⭐ "Đăng nhập Regular"
+   → GA4 set user_type: Regular_Member
+
+2. Nhập "Laptop" vào ô tìm kiếm → bấm Enter
+   → Trang lọc chỉ hiển thị 2 sản phẩm Laptop
+   → GA4 ghi nhận search event
+
+3. Filter thêm danh mục → bấm 💻 "Laptop"
+   → Kết quả không đổi (đã filter rồi)
+
+4. Bấm "Xem" Laptop Dell XPS
+   → GA4 ghi nhận view_item
+
+5. (Không mua) → Chỉ có view_item, không có purchase
+   → GA4 sẽ tính drop-off rate
+```
+
+### **Scenario 3: So sánh VIP vs Guest**
+
+```
+VIP Login → Mua 3 sản phẩm → Purchase value: 50M
+Guest Login → Xem hàng → Không mua
+
+GA4 Report sẽ cho thấy:
+- VIP: Conversion 100%, AOV 50M
+- Guest: Conversion 0%, AOV 0
+```
+
+---
+
+## 📊 GA4 Reports bạn sẽ thấy
+
+### **1. User Properties Report**
+Vào GA4 → Reports → User attributes → Groupby "Loại khách hàng"
+
+```
+User Type    | Users | Avg Order Value | Conversion
+-------------|-------|-----------------|-------------
+VIP_Member   | 1     | 50,000,000      | 100%
+Regular_     | 1     | 15,000,000      | 50%
+Member       |       |                 |
+Guest        | 1     | 0               | 0%
+```
+
+### **2. Ecommerce Funnel**
+Vào GA4 → Explore → Funnel exploration
+
+```
+Step 1: view_item → 10 users
+Step 2: add_to_cart → 6 users (60%)
+Step 3: purchase → 4 users (67%)
+
+Drop-off: 40% xem không mua, 33% thêm giỏ không mua
+```
+
+### **3. DebugView (Real-time)**
+Vào GA4 → Admin → DebugView
+
+Bạn sẽ thấy:
+```
+✓ login (user_type: VIP_Member)
+✓ view_item (item_name: iPhone 15 Pro, value: 15M)
+✓ add_to_cart (items: [{...}])
+✓ purchase (transaction_id: TXN_12345)
+```
 
 ---
 
@@ -587,6 +743,72 @@ Drop-off rate: 40% at cart step
 > Em đã cấu hình 3 sự kiện riêng biệt trên GA4 để bắt tất cả các bước này. DebugView sẽ chứng minh dữ liệu được gửi real-time.
 > 
 > Như bạn thấy trên video, khi em bấm nút → sự kiện lập tức hiện trên GA4, kèm theo user_type, giá tiền, mã đơn hàng... → Đó là Deep Analysis! 📊"
+
+---
+
+# 📁 Cấu trúc File
+
+```
+Demo_seminar_web_nc/
+├── shop.html          ⭐ WEB SHOP HOÀN CHỈNH (Dùng cái này!)
+│   ├── Search & Filter
+│   ├── 6 sản phẩm + Reviews
+│   ├── Giỏ hàng
+│   └── GA4 Tracking async
+│
+├── index.html         (Demo cũ - Button test)
+│
+├── README.md          (File hướng dẫn này)
+│
+└── .git/             (Git repository)
+```
+
+---
+
+# ✅ Tóm tắt So sánh
+
+| Tính năng | shop.html | index.html |
+|-----------|-----------|-----------|
+| **Giao diện** | Thực tế (Shop đầy đủ) | Demo (Chỉ button) |
+| **Search** | ✅ Có | ❌ Không |
+| **Filter** | ✅ Có (6 category) | ❌ Không |
+| **Reviews** | ✅ Có (2 review/sản phẩm) | ❌ Không |
+| **Giỏ hàng** | ✅ Hoạt động thực | ❌ Giả lập |
+| **Đăng nhập** | ✅ VIP/Premium/Regular/Guest | ✅ Như nhau |
+| **GA4 Events** | ✅ Tất cả tích hợp | ✅ Tất cả tích hợp |
+| **Performance** | ✅ Async (không lag) | ⚠️ Có lag trước |
+
+---
+
+# 🎓 Khi trình bày thầy/cô
+
+**Khuyên:** Dùng `shop.html` thay vì `index.html`
+
+### Vì sao?
+
+1. **Thực tế hơn**: Không phải chỉ button test, mà là web shop thực sự
+2. **Chuyên nghiệp**: Giao diện đẹp, có search/filter/reviews như app thật
+3. **Dễ hiểu**: Người khác dễ hình dung GA4 dùng để track gì
+4. **Ấn tượng**: "Em xây dựng luôn web shop, không chỉ demo" → Điểm cộng!
+
+### Kịch bản trình bày
+
+> "Thầy/cô ơi, em xây dựng một web shop nhỏ để demo GA4 Deep Analysis.
+>
+> **Trên shop, em có:**
+> - ✓ Đăng nhập (VIP/Premium/Regular) → Gắn User Properties
+> - ✓ Tìm kiếm & lọc sản phẩm → Theo dõi hành vi khách
+> - ✓ Giỏ hàng & thanh toán → Ghi nhận funnel (view → cart → purchase)
+> - ✓ Đánh giá khách hàng → Tăng tính thực tế
+>
+> **Khi khách bấm nút, GA4 ngay tức khắc ghi nhận:**
+> - Bấm "Xem" → view_item event (+ giá tiền, ID sản phẩm)
+> - Bấm "Thêm" → add_to_cart event
+> - Bấm "Thanh toán" → purchase event (+ transaction_id, total value)
+> - **Tất cả đều được gắn User Properties (VIP/Premium/Regular)**
+>
+> Em sẽ quay video chứng minh từng sự kiện được gửi đến GA4 DebugView real-time.
+> Nhờ vậy em có thể **so sánh hành vi**: VIP chi tiêu bao nhiêu? Regular rớt ở đâu? → Đó là Deep Analysis!"
 
 ---
 
