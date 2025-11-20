@@ -498,6 +498,46 @@
             padding: 20px;
             margin-top: 40px;
         }
+
+        /* Notification System */
+        #notification-container {
+            position: fixed;
+            top: 80px; /* Adjusted for sticky header */
+            right: 20px;
+            z-index: 1001;
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+        }
+
+        .notification {
+            background: #333;
+            color: white;
+            padding: 15px 20px;
+            border-radius: 8px;
+            box-shadow: 0 3px 10px rgba(0,0,0,0.2);
+            opacity: 0;
+            transform: translateX(100%);
+            transition: all 0.5s cubic-bezier(0.68, -0.55, 0.27, 1.55);
+            min-width: 250px;
+        }
+
+        .notification.show {
+            opacity: 1;
+            transform: translateX(0);
+        }
+
+        .notification.success {
+            background: #1dd1a1;
+        }
+        
+        .notification.info {
+            background: #667eea;
+        }
+
+        .notification.error {
+            background: #ff6348;
+        }
     </style>
     </head>
     <body>
@@ -620,7 +660,33 @@
                 Analysis Demo</p>
         </footer>
 
+        <div id="notification-container"></div>
+
         <script>
+        // --- NOTIFICATION SYSTEM ---
+        function showNotification(message, type = 'info') {
+            const container = document.getElementById('notification-container');
+            const notification = document.createElement('div');
+            notification.className = `notification ${type}`;
+            notification.textContent = message;
+            container.appendChild(notification);
+
+            // Animate in
+            setTimeout(() => {
+                notification.classList.add('show');
+            }, 10);
+
+            // Animate out and remove
+            setTimeout(() => {
+                notification.classList.remove('show');
+                setTimeout(() => {
+                    if (container.contains(notification)) {
+                        container.removeChild(notification);
+                    }
+                }, 500);
+            }, 3000);
+        }
+
         // Products data
         const products = [
             {
@@ -791,7 +857,7 @@
                 }]
             });
 
-            alert(`✓ Đã xem: ${product.name}\n💰 Giá: ${(product.price / 1000000).toFixed(1)}M VND`);
+            showNotification(`Đã xem: ${product.name}`, 'info');
         }
 
         // Add to cart
@@ -821,7 +887,7 @@
             });
 
             updateCart();
-            alert(`✓ Đã thêm ${product.name} vào giỏ`);
+            showNotification(`Đã thêm ${product.name} vào giỏ`, 'success');
         }
 
         // Update cart display
@@ -870,7 +936,7 @@
         // Checkout
         function checkout() {
             if (cart.length === 0) {
-                alert('Giỏ hàng trống!');
+                showNotification('Giỏ hàng trống!', 'error');
                 return;
             }
 
@@ -893,7 +959,7 @@
                 }))
             });
 
-            alert(`✅ Thanh toán thành công!\n\n📋 Mã đơn: ${transactionId}\n💰 Tổng tiền: ${(total / 1000000).toFixed(1)}M VND\n\nCảm ơn bạn đã mua sắm!`);
+            showNotification(`Thanh toán thành công! Mã đơn: ${transactionId}`, 'success');
 
             // Clear cart
             cart = [];
@@ -914,7 +980,7 @@
                 'user_type': 'VIP'
             });
             updateUserBadge();
-            alert('✅ Đã đăng nhập VIP!\n🎁 Bạn được hưởng ưu đãi đặc biệt');
+            showNotification('Đã đăng nhập VIP! Bạn được hưởng ưu đãi đặc biệt.', 'info');
         }
 
         function loginPremium() {
@@ -930,7 +996,7 @@
                 'user_type': 'Premium'
             });
             updateUserBadge();
-            alert('✅ Đã đăng nhập Premium!\n🎉 Bạn được hưởng ưu đãi thêm');
+            showNotification('Đã đăng nhập Premium! Bạn được hưởng ưu đãi thêm.', 'info');
         }
 
         function loginRegular() {
@@ -946,7 +1012,7 @@
                 'user_type': 'Regular'
             });
             updateUserBadge();
-            alert('✅ Đã đăng nhập Regular!');
+            showNotification('Đã đăng nhập Regular!', 'info');
         }
 
         function loginGuest() {
@@ -958,7 +1024,7 @@
                 'lifetime_value_tier': 'None'
             });
             updateUserBadge();
-            alert('✓ Bạn đang duyệt web dưới tư cách khách');
+            showNotification('Bạn đang duyệt web dưới tư cách khách.', 'info');
         }
 
         // Update user badge
