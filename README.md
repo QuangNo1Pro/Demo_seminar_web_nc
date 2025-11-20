@@ -32,15 +32,14 @@ Hướng dẫn chi tiết về **Phân tích chuyên sâu hành vi người dùn
 ## ⚡ Cách 1: Deploy lên Vercel (Khuyên dùng)
 
 1. Deploy project này lên Vercel.
-2. Mở URL Vercel của bạn. Bạn sẽ thấy trang chủ.
-3. Click vào link "Go to Shop Demo" để mở trang shop.
+2. Mở URL Vercel của bạn và thêm `/shop.html` vào cuối.
+   (Ví dụ: `https://your-project.vercel.app/shop.html`)
 
 ## 💻 Cách 2: Chạy local
 
 1. Mở terminal trong thư mục project.
 2. Chạy lệnh: `python -m http.server 8000`
-3. Mở trình duyệt và truy cập: `http://localhost:8000`
-4. Click vào link "Go to Shop Demo" để mở trang shop.
+3. Mở trình duyệt và truy cập: `http://localhost:8000/shop.html`
 
 ---
 
@@ -717,7 +716,6 @@ Drop-off rate: 40% at cart step
 
 ```
 Demo-seminar/
-├── index.html         (Landing page)
 ├── shop.html          (⭐ Web Shop Demo)
 ├── README.md          (File hướng dẫn này)
 └── .git/
