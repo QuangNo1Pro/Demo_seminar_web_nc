@@ -826,12 +826,22 @@
         // Filter by category
         function filterByCategory(category) {
             currentFilter = category;
+            
+            // Send GA4 event để track category được click
+            sendEvent('filter_category', {
+                'category_name': category,
+                'filter_type': 'product_category',
+                'user_action': 'click_filter'
+            });
+            
             // Update button styles
             document.querySelectorAll('.filter-btn').forEach(btn => {
                 btn.classList.remove('active');
             });
             event.target.classList.add('active');
             renderProducts();
+            
+            showNotification(`Đang lọc: ${category === 'all' ? 'Tất cả sản phẩm' : category}`, 'info');
         }
         
         // Search products
