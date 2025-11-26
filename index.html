@@ -306,7 +306,7 @@
             color: #333;
         }
         
-        .product-category {
+        .product-brand {
             color: #999;
             font-size: 12px;
             margin-bottom: 12px;
@@ -550,8 +550,7 @@
         gtag('js', new Date());
         gtag('config', 'G-5T3BKBHZCZ', {
             'allow_google_signals': true,
-            'allow_ad_personalization_signals': true,
-            'debug_mode': true
+            'allow_ad_personalization_signals': true
         });
         
         // Helper để gửi event async
@@ -567,11 +566,10 @@
         <!-- Header -->
         <header>
             <div class="header-container">
-                <div class="logo">💻 Tech Shop</div>
+                <div class="logo" onclick="navigateToHome()" style="cursor: pointer;">💻 Tech Shop</div>
                 <nav class="nav">
-                    <a href="#products">Sản phẩm</a>
-                    <a href="#cart">Giỏ hàng</a>
-                    <a href="#about">Về chúng tôi</a>
+                    <a href="#products" onclick="navigateToProducts(); return false;">Sản phẩm</a>
+                    <a href="#about" onclick="navigateToAbout(); return false;">Về chúng tôi</a>
                     <div class="cart-icon" onclick="scrollToCart()">
                         🛒
                         <span class="cart-count" id="cart-count">0</span>
@@ -621,21 +619,21 @@
                     </div>
                     <div class="filter-buttons">
                         <button class="filter-btn active"
-                            onclick="filterByCategory('all')">Tất cả</button>
+                            onclick="filterBybrand('all')">Tất cả</button>
                         <button class="filter-btn"
-                            onclick="filterByCategory('Điện thoại')">📱 Điện
+                            onclick="filterBybrand('Điện thoại')">📱 Điện
                             thoại</button>
                         <button class="filter-btn" 
-                            onclick="filterByCategory('Laptop')">💻
+                            onclick="filterBybrand('Laptop')">💻
                             Laptop</button>
                         <button class="filter-btn"
-                            onclick="filterByCategory('Audio')">🎧
+                            onclick="filterBybrand('Audio')">🎧
                             Audio</button>
                         <button class="filter-btn"
-                            onclick="filterByCategory('Tablet')">📲
+                            onclick="filterBybrand('Tablet')">📲
                             Tablet</button>
                         <button class="filter-btn"
-                            onclick="filterByCategory('Smartwatch')">⌚
+                            onclick="filterBybrand('Smartwatch')">⌚
                             Smartwatch</button>
                     </div>
                 </div>
@@ -651,6 +649,59 @@
                 </div>
                 <div class="cart-items" id="cart-items">
                     <!-- Cart items will be loaded here -->
+                </div>
+            </section>
+
+            <!-- About Section -->
+            <section class="about-section" id="about" style="display: none;">
+                <h2>ℹ️ Về chúng tôi</h2>
+                <div style="background: white; padding: 30px; border-radius: 10px; box-shadow: 0 2px 10px rgba(0,0,0,0.1);">
+                    <h3>🏪 Tech Shop - Công nghệ đỉnh cao</h3>
+                    <p style="line-height: 1.8; color: #555; margin-bottom: 20px;">
+                        Chào mừng bạn đến với Tech Shop - điểm đến lý tưởng cho những người đam mê công nghệ! 
+                        Chúng tôi chuyên cung cấp các sản phẩm điện tử hàng đầu từ những thương hiệu uy tín nhất thế giới.
+                    </p>
+                    
+                    <h3>🎯 Sứ mệnh của chúng tôi</h3>
+                    <p style="line-height: 1.8; color: #555; margin-bottom: 20px;">
+                        Mang đến trải nghiệm mua sắm công nghệ tuyệt vời nhất cho khách hàng với:
+                    </p>
+                    <ul style="line-height: 2; color: #555; margin-bottom: 20px;">
+                        <li>✅ Sản phẩm chính hãng 100%</li>
+                        <li>✅ Giá cả cạnh tranh nhất thị trường</li>
+                        <li>✅ Dịch vụ khách hàng tận tâm 24/7</li>
+                        <li>✅ Giao hàng nhanh chóng toàn quốc</li>
+                        <li>✅ Bảo hành uy tín, đổi trả dễ dàng</li>
+                    </ul>
+                    
+                    <h3>👥 Đội ngũ chuyên nghiệp</h3>
+                    <p style="line-height: 1.8; color: #555; margin-bottom: 20px;">
+                        Với hơn 10 năm kinh nghiệm trong ngành công nghệ, đội ngũ của chúng tôi luôn sẵn sàng 
+                        tư vấn và hỗ trợ bạn tìm được sản phẩm phù hợp nhất với nhu cầu của mình.
+                    </p>
+                    
+                    <h3>📊 Con số ấn tượng</h3>
+                    <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 20px; margin-top: 20px;">
+                        <div style="text-align: center; padding: 20px; background: #f0f7ff; border-radius: 8px;">
+                            <div style="font-size: 36px; font-weight: bold; color: #667eea;">50,000+</div>
+                            <div style="color: #666; margin-top: 5px;">Khách hàng hài lòng</div>
+                        </div>
+                        <div style="text-align: center; padding: 20px; background: #fff0f5; border-radius: 8px;">
+                            <div style="font-size: 36px; font-weight: bold; color: #f093fb;">1,000+</div>
+                            <div style="color: #666; margin-top: 5px;">Sản phẩm chính hãng</div>
+                        </div>
+                        <div style="text-align: center; padding: 20px; background: #f0fff4; border-radius: 8px;">
+                            <div style="font-size: 36px; font-weight: bold; color: #4ade80;">15+</div>
+                            <div style="color: #666; margin-top: 5px;">Chi nhánh toàn quốc</div>
+                        </div>
+                    </div>
+                    
+                    <h3 style="margin-top: 30px;">📞 Liên hệ</h3>
+                    <p style="line-height: 1.8; color: #555;">
+                        📧 Email: support@techshop.vn<br>
+                        📱 Hotline: 1900-xxxx<br>
+                        🏢 Địa chỉ: 123 Đường ABC, Quận 1, TP.HCM
+                    </p>
                 </div>
             </section>
         </div>
@@ -693,7 +744,7 @@
             {
                 id: 'IP15PRO',
                 name: 'iPhone 15 Pro',
-                category: 'Điện thoại',
+                brand: 'Điện thoại',
                 price: 15000000,
                 icon: '📱',
                 description: 'Điện thoại cao cấp với camera 48MP, chip A17 Pro',
@@ -706,7 +757,7 @@
             {
                 id: 'DELL_XPS',
                 name: 'Laptop Dell XPS 15',
-                category: 'Laptop',
+                brand: 'Laptop',
                 price: 25000000,
                 icon: '💻',
                 description: 'Laptop chuyên nghiệp với màn hình 4K, hiệu năng mạnh',
@@ -719,7 +770,7 @@
             {
                 id: 'AIRPODS_MAX',
                 name: 'Apple AirPods Max',
-                category: 'Audio',
+                brand: 'Audio',
                 price: 8000000,
                 icon: '🎧',
                 description: 'Tai nghe over-ear cao cấp với âm thanh tuyệt vời',
@@ -732,7 +783,7 @@
             {
                 id: 'IPAD_PRO',
                 name: 'iPad Pro 12.9"',
-                category: 'Tablet',
+                brand: 'Tablet',
                 price: 18000000,
                 icon: '📲',
                 description: 'Máy tính bảng mạnh mẽ cho sáng tạo và năng suất',
@@ -745,7 +796,7 @@
             {
                 id: 'WATCH_ULTRA',
                 name: 'Apple Watch Ultra',
-                category: 'Smartwatch',
+                brand: 'Smartwatch',
                 price: 9000000,
                 icon: '⌚',
                 description: 'Đồng hồ thông minh bền bỉ cho vận động viên',
@@ -758,7 +809,7 @@
             {
                 id: 'MACBOOK_M3',
                 name: 'MacBook Pro M3',
-                category: 'Laptop',
+                brand: 'Laptop',
                 price: 30000000,
                 icon: '🍎',
                 description: 'Laptop siêu mạnh cho các chuyên gia',
@@ -775,6 +826,65 @@
         let currentFilter = 'all';
         let currentSearch = '';
 
+        // ====== NAVIGATION FUNCTIONS WITH VIRTUAL PAGEVIEWS ======
+        
+        // Navigate to home
+        function navigateToHome() {
+            // Hide all sections
+            document.getElementById('products').style.display = 'block';
+            document.getElementById('cart').style.display = 'none';
+            document.getElementById('about').style.display = 'none';
+            
+            // Send virtual pageview
+            sendEvent('page_view', {
+                page_title: 'Trang chủ | Tech Shop',
+                page_location: window.location.origin + '/',
+                page_path: '/'
+            });
+            
+            // Scroll to top
+            window.scrollTo({top: 0, behavior: 'smooth'});
+            showNotification('Trang chủ', 'info');
+        }
+        
+        // Navigate to products
+        function navigateToProducts() {
+            // Show products, hide others
+            document.getElementById('products').style.display = 'block';
+            document.getElementById('cart').style.display = 'none';
+            document.getElementById('about').style.display = 'none';
+            
+            // Send virtual pageview
+            sendEvent('page_view', {
+                page_title: 'Sản phẩm | Tech Shop',
+                page_location: window.location.origin + '/products',
+                page_path: '/products'
+            });
+            
+            // Scroll to products
+            document.getElementById('products').scrollIntoView({behavior: 'smooth'});
+            showNotification('Danh sách sản phẩm', 'info');
+        }
+        
+        // Navigate to about
+        function navigateToAbout() {
+            // Hide products and cart, show about
+            document.getElementById('products').style.display = 'none';
+            document.getElementById('cart').style.display = 'none';
+            document.getElementById('about').style.display = 'block';
+            
+            // Send virtual pageview
+            sendEvent('page_view', {
+                page_title: 'Về chúng tôi | Tech Shop',
+                page_location: window.location.origin + '/about',
+                page_path: '/about'
+            });
+            
+            // Scroll to about
+            document.getElementById('about').scrollIntoView({behavior: 'smooth'});
+            showNotification('Về chúng tôi', 'info');
+        }
+
         // Initialize products
         function initProducts() {
             renderProducts();
@@ -783,10 +893,10 @@
         // Render products based on filter and search
         function renderProducts() {
             let filtered = products.filter(p => {
-                const matchCategory = currentFilter === 'all' || p.category === currentFilter;
+                const matchbrand = currentFilter === 'all' || p.brand === currentFilter;
                 const matchSearch = p.name.toLowerCase().includes(currentSearch.toLowerCase()) || 
-                                   p.category.toLowerCase().includes(currentSearch.toLowerCase());
-                return matchCategory && matchSearch;
+                                   p.brand.toLowerCase().includes(currentSearch.toLowerCase());
+                return matchbrand && matchSearch;
             });
             
             const grid = document.getElementById('products-grid');
@@ -795,7 +905,7 @@
                     <div class="product-image">${product.icon}</div>
                     <div class="product-info">
                         <div class="product-name">${product.name}</div>
-                        <div class="product-category">${product.category} ⭐ ${product.rating}</div>
+                        <div class="product-brand">${product.brand} ⭐ ${product.rating}</div>
                         <div class="product-description">${product.description}</div>
                         
                         <div class="reviews-section">
@@ -823,17 +933,9 @@
             `).join('');
         }
         
-        // Filter by category
-        function filterByCategory(category) {
-            currentFilter = category;
-            
-            // Send GA4 event để track category được click
-            sendEvent('filter_category', {
-                'category_name': category,
-                'filter_type': 'product_category',
-                'user_action': 'click_filter'
-            });
-            
+        // Filter by brand
+        function filterBybrand(brand) {
+            currentFilter = brand;
             // Update button styles
             document.querySelectorAll('.filter-btn').forEach(btn => {
                 btn.classList.remove('active');
@@ -841,7 +943,16 @@
             event.target.classList.add('active');
             renderProducts();
             
-            showNotification(`Đang lọc: ${category === 'all' ? 'Tất cả sản phẩm' : category}`, 'info');
+            // Send virtual pageview for brand filter
+            if (brand !== 'all') {
+                const brandSlug = brand.toLowerCase().replace(/\s+/g, '-');
+                sendEvent('page_view', {
+                    page_title: `${brand} | Tech Shop`,
+                    page_location: window.location.origin + `/products/brand/${brandSlug}`,
+                    page_path: `/products/brand/${brandSlug}`
+                });
+                showNotification(`Lọc: ${brand}`, 'info');
+            }
         }
         
         // Search products
@@ -849,6 +960,23 @@
             const input = document.getElementById('search-input');
             currentSearch = input.value;
             renderProducts();
+            
+            // Send search event and virtual pageview
+            if (currentSearch) {
+                // Search event
+                sendEvent('search', {
+                    search_term: currentSearch
+                });
+                
+                // Virtual pageview
+                sendEvent('page_view', {
+                    page_title: `Tìm: "${currentSearch}" | Tech Shop`,
+                    page_location: window.location.origin + `/search?q=${encodeURIComponent(currentSearch)}`,
+                    page_path: '/search'
+                });
+                
+                showNotification(`Tìm kiếm: "${currentSearch}"`, 'info');
+            }
         }
 
         // View product
@@ -856,19 +984,27 @@
             const product = products.find(p => p.id === productId);
             if (!product) return;
 
+            // Send virtual pageview for product detail
+            const productSlug = product.name.toLowerCase().replace(/\s+/g, '-');
+            sendEvent('page_view', {
+                page_title: `${product.name} | Tech Shop`,
+                page_location: window.location.origin + `/product/${productId}/${productSlug}`,
+                page_path: `/product/${productId}`
+            });
+
             sendEvent('view_item', {
                 'currency': 'VND',
                 'value': product.price,
                 'items': [{
                     'item_id': product.id,
                     'item_name': product.name,
-                    'item_category': product.category,
+                    'item_brand': product.brand,
                     'price': product.price,
                     'quantity': 1
                 }]
             });
 
-            showNotification(`Đã xem: ${product.name}`, 'info');
+            showNotification(`Đang xem: ${product.name}`, 'info');
         }
 
         // Add to cart
@@ -891,7 +1027,7 @@
                 'items': [{
                     'item_id': product.id,
                     'item_name': product.name,
-                    'item_category': product.category,
+                    'item_brand': product.brand,
                     'price': product.price,
                     'quantity': 1
                 }]
@@ -940,7 +1076,25 @@
 
         // Remove from cart
         function removeFromCart(productId) {
+            const removedItem = cart.find(item => item.id === productId);
             cart = cart.filter(item => item.id !== productId);
+            
+            // Send remove_from_cart event
+            if (removedItem) {
+                sendEvent('remove_from_cart', {
+                    'currency': 'VND',
+                    'value': removedItem.price * removedItem.quantity,
+                    'items': [{
+                        'item_id': removedItem.id,
+                        'item_name': removedItem.name,
+                        'item_brand': removedItem.brand,
+                        'price': removedItem.price,
+                        'quantity': removedItem.quantity
+                    }]
+                });
+                showNotification(`Đã xóa ${removedItem.name} khỏi giỏ`, 'info');
+            }
+            
             updateCart();
         }
 
@@ -951,30 +1105,67 @@
                 return;
             }
 
+            // Directly proceed to checkout
+            processCheckout();
+        }
+
+        // Show demographic survey before checkout
+        // ...existing code...
+
+        // Cancel survey
+        // ...existing code...
+
+        // Complete survey and proceed to checkout
+        // ...existing code...
+
+        // Process checkout with demographic data
+        function processCheckout() {
             const total = cart.reduce((sum, item) => sum + item.price * item.quantity, 0);
             const transactionId = 'TXN_' + Math.floor(Math.random() * 1000000);
 
-            sendEvent('purchase', {
-                'transaction_id': transactionId,
-                'affiliation': 'Tech Shop',
-                'value': total,
+            // Begin checkout event
+            sendEvent('begin_checkout', {
                 'currency': 'VND',
-                'tax': total * 0.1,
-                'shipping': 500000,
+                'value': total,
                 'items': cart.map(item => ({
                     'item_id': item.id,
                     'item_name': item.name,
-                    'item_category': item.category,
+                    'item_brand': item.brand,
                     'price': item.price,
                     'quantity': item.quantity
                 }))
             });
 
-            showNotification(`Thanh toán thành công! Mã đơn: ${transactionId}`, 'success');
+            // Simulate payment processing
+            setTimeout(() => {
+                sendEvent('purchase', {
+                    'transaction_id': transactionId,
+                    'affiliation': 'Tech Shop',
+                    'value': total,
+                    'currency': 'VND',
+                    'tax': total * 0.1,
+                    'shipping': 500000,
+                    'items': cart.map(item => ({
+                        'item_id': item.id,
+                        'item_name': item.name,
+                        'item_brand': item.brand,
+                        'price': item.price,
+                        'quantity': item.quantity
+                    }))
+                });
 
-            // Clear cart
-            cart = [];
-            updateCart();
+                // Virtual pageview for thank you page
+                sendEvent('page_view', {
+                    page_location: window.location.origin + `/thank-you?order=${transactionId}`,
+                    page_path: '/thank-you'
+                });
+
+                showNotification(`Thanh toán thành công! Mã đơn: ${transactionId}`, 'success');
+
+                // Clear cart
+                cart = [];
+                updateCart();
+            }, 500);
         }
 
         // Login functions
@@ -1052,13 +1243,31 @@
 
         // Scroll to cart
         function scrollToCart() {
+            // Show cart section
+            document.getElementById('products').style.display = 'none';
+            document.getElementById('about').style.display = 'none';
+            document.getElementById('cart').style.display = 'block';
+            
             document.getElementById('cart').scrollIntoView({behavior: 'smooth'});
+            showNotification('Giỏ hàng của bạn', 'info');
         }
 
         // Initialize on load
         window.addEventListener('load', () => {
             initProducts();
             updateCart();
+            
+            // Show products section by default
+            document.getElementById('products').style.display = 'block';
+            document.getElementById('cart').style.display = 'none';
+            document.getElementById('about').style.display = 'none';
+            
+            // Send initial pageview
+            sendEvent('page_view', {
+                page_title: 'Trang chủ | Tech Shop',
+                page_location: window.location.href,
+                page_path: '/'
+            });
             
             // Search on Enter key
             document.getElementById('search-input').addEventListener('keypress', (e) => {
