@@ -4,15 +4,65 @@ Hướng dẫn chi tiết về **Phân tích chuyên sâu hành vi người dùn
 - ✅ **Định danh người dùng** (User Properties)
 - ✅ **Phân tích phễu mua hàng** (Ecommerce Funnel)
 - ✅ **So sánh hành vi khách hàng** (Cohort Analysis)
+- ✅ **Virtual Pageviews** (Theo dõi điều hướng trong SPA)
+- ✅ **Search Tracking** (Theo dõi tìm kiếm)
+- ✅ **Remove from Cart** (Theo dõi xóa sản phẩm)
+
+---
+
+## 🆕 Cập nhật mới trong index.html
+
+### **Tính năng mới được thêm vào:**
+
+1. **📄 Virtual Pageview Tracking (SPA)**
+   - Theo dõi điều hướng giữa: Trang chủ → Sản phẩm → Giỏ hàng → Về chúng tôi
+   - Mỗi lần chuyển trang gửi `page_view` event với path riêng
+   - Hoàn hảo cho Single Page Application
+
+2. **🔍 Search Event Tracking**
+   - Ghi nhận khi user tìm kiếm sản phẩm
+   - Gửi `search` event với `search_term` parameter
+   - Kèm theo `page_view` cho trang kết quả tìm kiếm
+
+3. **🏷️ Brand Filter với Virtual Pageviews**
+   - Mỗi brand có path riêng: `/products/brand/laptop`, `/products/brand/dien-thoai`
+   - GA4 theo dõi brand nào được quan tâm nhiều nhất
+
+4. **❌ Remove from Cart Event**
+   - Ghi nhận khi user xóa sản phẩm khỏi giỏ
+   - Hiểu tại sao user thay đổi ý định mua
+
+5. **🔔 Notification System**
+   - Feedback realtime cho user mỗi hành động
+   - Toast notification đẹp mắt, tự động ẩn
+
+6. **🛒 Enhanced Cart Flow**
+   - Begin checkout event trước khi purchase
+   - Thank you page với virtual pageview
+   - Full ecommerce tracking đầy đủ
+
+### **GA4 Events được track:**
+
+| Event | Khi nào trigger | Parameters quan trọng |
+|-------|----------------|----------------------|
+| `page_view` | Điều hướng menu, filter, search, product detail | `page_title`, `page_location`, `page_path` |
+| `login` | Đăng nhập VIP/Premium/Regular/Guest | `method`, `user_type` |
+| `search` | Nhập từ khóa và search | `search_term` |
+| `view_item` | Xem chi tiết sản phẩm | `items`, `value`, `currency` |
+| `add_to_cart` | Thêm sản phẩm vào giỏ | `items`, `value`, `currency` |
+| `remove_from_cart` | Xóa sản phẩm khỏi giỏ | `items`, `value`, `currency` |
+| `begin_checkout` | Bắt đầu thanh toán | `items`, `value`, `currency` |
+| `purchase` | Hoàn thành đơn hàng | `transaction_id`, `value`, `items`, `tax`, `shipping` |
 
 ---
 
 ## 📋 Mục lục
 
 ### **Phần I: Web Shop Hoàn chỉnh (Recommended)**
-- [🛍️ Chạy Web Shop](#-chạy-web-shop-shophtml)
+
+- [🛍️ Chạy Web Shop](#-chạy-web-shop)
 - [✨ Tính năng Shop](#-tính-năng-web-shop)
-- [🎬 Kịch bản Demo](#-kịch-bản-demo-shophtml)
+- [🎬 Kịch bản Demo](#-kịch-bản-demo-indexhtml)
 
 ### **Phần II: Setup & Testing**
 1. [🎬 Tổng quan quy trình](#-tổng-quan-quy-trình)
@@ -32,14 +82,14 @@ Hướng dẫn chi tiết về **Phân tích chuyên sâu hành vi người dùn
 ## ⚡ Cách 1: Deploy lên Vercel (Khuyên dùng)
 
 1. Deploy project này lên Vercel.
-2. Mở URL Vercel của bạn và thêm `/shop.html` vào cuối.
-   (Ví dụ: `https://your-project.vercel.app/shop.html`)
+2. Mở URL Vercel của bạn (index.html sẽ tự động load).
+   (Ví dụ: `https://your-project.vercel.app/`)
 
 ## 💻 Cách 2: Chạy local
 
 1. Mở terminal trong thư mục project.
 2. Chạy lệnh: `python -m http.server 8000`
-3. Mở trình duyệt và truy cập: `http://localhost:8000/shop.html`
+3. Mở trình duyệt và truy cập: `http://localhost:8000/`
 
 ---
 
@@ -71,65 +121,109 @@ Hướng dẫn chi tiết về **Phân tích chuyên sâu hành vi người dùn
 - Nút thanh toán gửi GA4 purchase event
 
 ### **6️⃣ GA4 Tracking tích hợp**
+
+- ✅ **page_view**: Theo dõi điều hướng giữa các trang (Trang chủ, Sản phẩm, Về chúng tôi, Giỏ hàng)
 - ✅ **login**: Khi bấm nút đăng nhập
+- ✅ **search**: Khi tìm kiếm sản phẩm
 - ✅ **view_item**: Khi bấm "Xem" sản phẩm
 - ✅ **add_to_cart**: Khi bấm "Thêm" vào giỏ
+- ✅ **remove_from_cart**: Khi xóa sản phẩm khỏi giỏ
+- ✅ **begin_checkout**: Khi bắt đầu thanh toán
 - ✅ **purchase**: Khi bấm "Thanh toán"
 - ✅ Tất cả events được gửi **async** (không block UI)
+- ✅ **Virtual Pageviews** cho Single Page Application (SPA)
 
 ---
 
-## 🎬 Kịch bản Demo (shop.html)
+## 🎬 Kịch bản Demo (index.html)
 
 ### **Scenario 1: Khách VIP mua 1 sản phẩm**
 
 ```
-1. Mở shop.html
+1. Mở index.html (hoặc truy cập web đã deploy)
+   → GA4 ghi nhận page_view: Trang chủ
+
 2. Bấm 👑 "Đăng nhập VIP"
-   → Header hiển thị "VIP_Member"
+   → Header hiển thị "VIP Member"
    → GA4 ghi nhận event login + user_properties
+   → Notification hiện: "Đã đăng nhập VIP!"
 
 3. Bấm "Xem" sản phẩm iPhone 15 Pro
    → GA4 ghi nhận view_item (value: 15M)
+   → GA4 ghi nhận page_view: Trang chi tiết sản phẩm
+   → Notification: "Đang xem: iPhone 15 Pro"
 
 4. Bấm "Thêm" vào giỏ
    → Giỏ hàng update (số lượng +1)
    → GA4 ghi nhận add_to_cart
+   → Notification: "Đã thêm iPhone 15 Pro vào giỏ"
 
-5. Bấm "Thanh toán"
-   → Alert hiển thị mã đơn hàng
+5. Bấm biểu tượng 🛒 giỏ hàng trên header
+   → Chuyển sang màn hình giỏ hàng
+   → GA4 ghi nhận page_view: Giỏ hàng
+
+6. Bấm "Thanh toán"
+   → GA4 ghi nhận begin_checkout
    → GA4 ghi nhận purchase (value: 15M, transaction_id: TXN_xxxxx)
+   → GA4 ghi nhận page_view: Thank you page
+   → Alert hiển thị mã đơn hàng
    → Giỏ hàng reset
 ```
 
-### **Scenario 2: Khách Regular tìm kiếm Laptop**
+### **Scenario 2: Khách Regular tìm kiếm & điều hướng**
 
 ```
 1. Bấm ⭐ "Đăng nhập Regular"
    → GA4 set user_type: Regular_Member
+   → Notification: "Đã đăng nhập Regular!"
 
 2. Nhập "Laptop" vào ô tìm kiếm → bấm Enter
+   → GA4 ghi nhận search event (search_term: "Laptop")
+   → GA4 ghi nhận page_view: Search results
    → Trang lọc chỉ hiển thị 2 sản phẩm Laptop
-   → GA4 ghi nhận search event
+   → Notification: "Tìm kiếm: Laptop"
 
-3. Filter thêm danh mục → bấm 💻 "Laptop"
+3. Bấm nút lọc 💻 "Laptop"
+   → GA4 ghi nhận page_view: Products/brand/laptop
    → Kết quả không đổi (đã filter rồi)
+   → Notification: "Lọc: Laptop"
 
-4. Bấm "Xem" Laptop Dell XPS
+4. Bấm menu "Về chúng tôi"
+   → Chuyển sang trang About
+   → GA4 ghi nhận page_view: Về chúng tôi
+   → Notification: "Về chúng tôi"
+
+5. Bấm logo "Tech Shop" trên header
+   → Quay về trang chủ
+   → GA4 ghi nhận page_view: Trang chủ
+   → Notification: "Trang chủ"
+
+6. Bấm "Xem" Laptop Dell XPS
    → GA4 ghi nhận view_item
+   → GA4 ghi nhận page_view: Product detail
 
-5. (Không mua) → Chỉ có view_item, không có purchase
+7. (Không mua) → Chỉ có view_item, không có purchase
    → GA4 sẽ tính drop-off rate
 ```
 
-### **Scenario 3: So sánh VIP vs Guest**
+### **Scenario 3: So sánh VIP vs Guest với Remove Cart**
 
 ```
-VIP Login → Mua 3 sản phẩm → Purchase value: 50M
-Guest Login → Xem hàng → Không mua
+1. VIP Login → Xem 3 sản phẩm → Thêm tất cả vào giỏ
+   → GA4 ghi nhận: 3 view_item, 3 add_to_cart
+
+2. Xóa 1 sản phẩm khỏi giỏ
+   → GA4 ghi nhận remove_from_cart
+   → Notification: "Đã xóa [tên sản phẩm] khỏi giỏ"
+
+3. Mua 2 sản phẩm còn lại → Purchase value: 40M
+   → GA4 ghi nhận begin_checkout + purchase
+
+4. Guest Login → Xem hàng → Không mua
+   → GA4 ghi nhận: view_item (không có purchase)
 
 GA4 Report sẽ cho thấy:
-- VIP: Conversion 100%, AOV 50M
+- VIP: Conversion 100%, AOV 40M, có remove_from_cart
 - Guest: Conversion 0%, AOV 0
 ```
 
@@ -208,18 +302,18 @@ Bạn sẽ thấy:
 ## 1.2 Thay Measurement ID trong file HTML
 
 **Cách làm:**
-1. Mở file `shop.html` trong VS Code
+1. Mở file `index.html` trong VS Code
 2. **Ctrl + H** để mở Find and Replace
-3. Tìm: `G-XXXXXXX`
+3. Tìm: `G-5T3BKBHZCZ`
 4. Thay bằng: Measurement ID của bạn (ví dụ: `G-A1B2C3D4E5`)
 5. **Replace All** (thay tất cả)
 
 **Ví dụ:**
 ```html
 <!-- TRƯỚC (sai) -->
-<script async src="https://www.googletagmanager.com/gtag/js?id=G-XXXXXXX"></script>
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-5T3BKBHZCZ"></script>
 <script>
-    gtag('config', 'G-XXXXXXX', {
+    gtag('config', 'G-5T3BKBHZCZ', {
 
 <!-- SAU (đúng) -->
 <script async src="https://www.googletagmanager.com/gtag/js?id=G-A1B2C3D4E5"></script>
@@ -269,14 +363,18 @@ Hãy thực hiện theo thứ tự này:
    → GA4 ghi nhận: Regular xem nhưng KHÔNG mua (drop-off)
 ```
 
-## 3.2 Ý nghĩa mỗi nút
+## 3.2 Ý nghĩa mỗi hành động
 
-| Nút | Sự kiện GA4 | Ý nghĩa |
+| Hành động | Sự kiện GA4 | Ý nghĩa |
 |-----|-----------|---------|
 | 👑 Đăng nhập VIP | `login` + `user_properties` | Gắn nhãn "VIP" cho user |
-| 📷 Xem sản phẩm | `view_item` | User xem sản phẩm |
+| 🏠 Bấm logo/menu | `page_view` | Điều hướng giữa các trang (SPA tracking) |
+| 🔍 Tìm kiếm | `search` + `page_view` | User tìm kiếm sản phẩm |
+| 🏷️ Lọc danh mục | `page_view` | User lọc theo brand |
+| 📷 Xem sản phẩm | `view_item` + `page_view` | User xem chi tiết sản phẩm |
 | 🛒 Thêm giỏ | `add_to_cart` | User quan tâm sản phẩm |
-| 💳 Thanh toán | `purchase` | User hoàn thành giao dịch |
+| ❌ Xóa khỏi giỏ | `remove_from_cart` | User thay đổi ý định |
+| 💳 Thanh toán | `begin_checkout` + `purchase` + `page_view` | User hoàn thành giao dịch |
 | ⚠️ Bỏ đi | `view_item` (không có purchase) | User KHÔNG mua (drop-off) |
 
 ---
@@ -716,7 +814,7 @@ Drop-off rate: 40% at cart step
 
 ```
 Demo-seminar/
-├── shop.html          (⭐ Web Shop Demo)
+├── index.html         (⭐ Web Shop Demo - File chính)
 ├── README.md          (File hướng dẫn này)
 └── .git/
 ```
@@ -727,22 +825,36 @@ Demo-seminar/
 
 ### Kịch bản trình bày
 
-> "Thầy/cô ơi, em xây dựng một web shop nhỏ để demo GA4 Deep Analysis.
+> "Thầy/cô ơi, em xây dựng một web shop với Single Page Application (SPA) để demo GA4 Deep Analysis.
 >
 > **Trên shop, em có:**
-> - ✓ Đăng nhập (VIP/Premium/Regular) → Gắn User Properties
-> - ✓ Tìm kiếm & lọc sản phẩm → Theo dõi hành vi khách
-> - ✓ Giỏ hàng & thanh toán → Ghi nhận funnel (view → cart → purchase)
-> - ✓ Đánh giá khách hàng → Tăng tính thực tế
+> - ✓ **Đăng nhập** (VIP/Premium/Regular/Guest) → Gắn User Properties
+> - ✓ **Virtual Pageview Tracking** → Theo dõi điều hướng giữa Trang chủ, Sản phẩm, Giỏ hàng, Về chúng tôi
+> - ✓ **Tìm kiếm & lọc sản phẩm** → Ghi nhận search events và page views theo brand
+> - ✓ **Giỏ hàng hoàn chỉnh** → Tracking thêm/xóa sản phẩm (add_to_cart, remove_from_cart)
+> - ✓ **Funnel theo dõi** → view_item → add_to_cart → begin_checkout → purchase
+> - ✓ **Notification System** → Feedback realtime cho user
+> - ✓ **Đánh giá khách hàng** → Tăng tính thực tế
 >
-> **Khi khách bấm nút, GA4 ngay tức khắc ghi nhận:**
-> - Bấm "Xem" → view_item event (+ giá tiền, ID sản phẩm)
+> **Khi khách tương tác, GA4 ngay tức khắc ghi nhận:**
+> - Bấm menu → page_view event (virtual pageview cho SPA)
+> - Tìm kiếm → search event + page_view
+> - Lọc danh mục → page_view với path khác nhau
+> - Bấm "Xem" → view_item event + page_view (product detail)
 > - Bấm "Thêm" → add_to_cart event
-> - Bấm "Thanh toán" → purchase event (+ transaction_id, total value)
-> - **Tất cả đều được gắn User Properties (VIP/Premium/Regular)**
+> - Bấm "Xóa" → remove_from_cart event
+> - Bấm "Thanh toán" → begin_checkout + purchase event + page_view (thank you)
+> - **Tất cả đều được gắn User Properties (VIP/Premium/Regular/Guest)**
+>
+> **Điểm nổi bật:**
+> 1. **Virtual Pageview**: Dù là SPA (không reload trang), GA4 vẫn track được điều hướng như web thông thường
+> 2. **Complete Funnel**: Theo dõi đầy đủ hành trình từ xem → thêm giỏ → xóa → mua
+> 3. **Search Tracking**: Biết user tìm gì, quan tâm sản phẩm nào
+> 4. **User Segmentation**: So sánh hành vi VIP vs Regular vs Guest
 >
 > Em sẽ quay video chứng minh từng sự kiện được gửi đến GA4 DebugView real-time.
-> Nhờ vậy em có thể **so sánh hành vi**: VIP chi tiêu bao nhiêu? Regular rớt ở đâu? → Đó là Deep Analysis!"
+> Nhờ vậy em có thể **so sánh hành vi**: VIP chi tiêu bao nhiêu? Regular rớt ở đâu? 
+> User tìm kiếm từ khóa gì nhiều nhất? → Đó là Deep Analysis!"
 
 ---
 
