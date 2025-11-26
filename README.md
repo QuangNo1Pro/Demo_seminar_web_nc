@@ -1,4 +1,11 @@
+
+
 # 🎯 GA4 Deep Analysis - Hướng dẫn Toàn diện
+
+🔗 **GitHub Repository:** [https://github.com/QuangNo1Pro/Demo_seminar_web_nc.git](https://github.com/QuangNo1Pro/Demo_seminar_web_nc.git)  
+🌐 **Live Demo:** [https://demo-seminar-web-nc.vercel.app/](https://demo-seminar-web-nc.vercel.app/)
+
+---
 
 Hướng dẫn chi tiết về **Phân tích chuyên sâu hành vi người dùng** với GA4:
 - ✅ **Định danh người dùng** (User Properties)
@@ -10,9 +17,7 @@ Hướng dẫn chi tiết về **Phân tích chuyên sâu hành vi người dùn
 
 ---
 
-## 🆕 Cập nhật mới trong index.html
-
-### **Tính năng mới được thêm vào:**
+## 🆕 Tính năng trong index.html
 
 1. **📄 Virtual Pageview Tracking (SPA)**
    - Theo dõi điều hướng giữa: Trang chủ → Sản phẩm → Giỏ hàng → Về chúng tôi
@@ -791,23 +796,6 @@ Drop-off rate: 40% at cart step
 ```
 
 ---
-
-# 🎓 Kịch bản "chém gió" khi trình bày
-
-> "Thầy/cô ơi, em xin trình bày về GA4 Deep Analysis - Phân tích chuyên sâu hành vi người dùng.
->
-> **Câu hỏi 1: Họ là ai?**
-> Thông thường GA4 chỉ biết người dùng là một con số ẩn danh. Nhưng em dùng User Properties để gắn 'nhãn' lên user. Ví dụ: VIP, Premium, Regular.
-> Từ đó, em có thể so sánh: VIP chi tiêu trung bình 50 triệu, Regular chỉ 8 triệu. → VIP chi tiêu **gấp 6 lần**.
->
-> **Câu hỏi 2: Họ rớt ở đâu?**
-> Não chỉ đo lường mua hàng. Em đo lường cả **quy trình**: Xem hàng → Thêm giỏ → Mua.
-> Nếu có 100 người xem, 50 người thêm giỏ, nhưng chỉ 2 người mua → **Quy trình thanh toán có vấn đề hoặc phí ship quá cao**.
->
-> Em đã cấu hình 3 sự kiện riêng biệt trên GA4 để bắt tất cả các bước này. DebugView sẽ chứng minh dữ liệu được gửi real-time.
-> 
-> Như bạn thấy trên video, khi em bấm nút → sự kiện lập tức hiện trên GA4, kèm theo user_type, giá tiền, mã đơn hàng... → Đó là Deep Analysis! 📊"
-
 ---
 
 # 📁 Cấu trúc File
@@ -818,44 +806,3 @@ Demo-seminar/
 ├── README.md          (File hướng dẫn này)
 └── .git/
 ```
-
----
-
-# 🎓 Khi trình bày
-
-### Kịch bản trình bày
-
-> "Thầy/cô ơi, em xây dựng một web shop với Single Page Application (SPA) để demo GA4 Deep Analysis.
->
-> **Trên shop, em có:**
-> - ✓ **Đăng nhập** (VIP/Premium/Regular/Guest) → Gắn User Properties
-> - ✓ **Virtual Pageview Tracking** → Theo dõi điều hướng giữa Trang chủ, Sản phẩm, Giỏ hàng, Về chúng tôi
-> - ✓ **Tìm kiếm & lọc sản phẩm** → Ghi nhận search events và page views theo brand
-> - ✓ **Giỏ hàng hoàn chỉnh** → Tracking thêm/xóa sản phẩm (add_to_cart, remove_from_cart)
-> - ✓ **Funnel theo dõi** → view_item → add_to_cart → begin_checkout → purchase
-> - ✓ **Notification System** → Feedback realtime cho user
-> - ✓ **Đánh giá khách hàng** → Tăng tính thực tế
->
-> **Khi khách tương tác, GA4 ngay tức khắc ghi nhận:**
-> - Bấm menu → page_view event (virtual pageview cho SPA)
-> - Tìm kiếm → search event + page_view
-> - Lọc danh mục → page_view với path khác nhau
-> - Bấm "Xem" → view_item event + page_view (product detail)
-> - Bấm "Thêm" → add_to_cart event
-> - Bấm "Xóa" → remove_from_cart event
-> - Bấm "Thanh toán" → begin_checkout + purchase event + page_view (thank you)
-> - **Tất cả đều được gắn User Properties (VIP/Premium/Regular/Guest)**
->
-> **Điểm nổi bật:**
-> 1. **Virtual Pageview**: Dù là SPA (không reload trang), GA4 vẫn track được điều hướng như web thông thường
-> 2. **Complete Funnel**: Theo dõi đầy đủ hành trình từ xem → thêm giỏ → xóa → mua
-> 3. **Search Tracking**: Biết user tìm gì, quan tâm sản phẩm nào
-> 4. **User Segmentation**: So sánh hành vi VIP vs Regular vs Guest
->
-> Em sẽ quay video chứng minh từng sự kiện được gửi đến GA4 DebugView real-time.
-> Nhờ vậy em có thể **so sánh hành vi**: VIP chi tiêu bao nhiêu? Regular rớt ở đâu? 
-> User tìm kiếm từ khóa gì nhiều nhất? → Đó là Deep Analysis!"
-
----
-
-**Good luck! 🚀**
